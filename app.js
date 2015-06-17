@@ -5,13 +5,13 @@ angular.module("app", ["ngRoute"])
     $routeProvider
 
     .when("/", {
-      templateUrl: "views/home.html",
+      templateUrl: "/home.html",
       controller: "HomeController",
       controllerAs: "homeCtrl"
     })
 
     .when("/new", {
-      templateUrl: "views/new.html",
+      templateUrl: "/new.html",
       controller: "NewController",
       controllerAs: "newCtrl"
     })
