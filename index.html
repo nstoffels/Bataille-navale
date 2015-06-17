@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>la bataille des codes</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-route.min.js"></script>
+  
+  <script src="/app.js"></script>
+  <script src="/NewController.js"></script>
+  <script src="/HomeController.js"></script>
+  <script src="/GameService.js"></script>
+</head>
+<body ng-app="app">
+	
+	<ul>
+		<li><a href="#/">Maison</a></li>
+		<li><a href="#/new.html">nouveaux jeux</a></li>
+	</ul>
+	
+	<div ng-view></div>
+</body>
+</html>

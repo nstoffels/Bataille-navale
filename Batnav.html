@@ -4,7 +4,6 @@
 	  <meta charset="utf-8">
 	  <title>Bataille Navale</title>
 	  <!-- se mettre sur le serveur lr-http-server -p 3000 -->
-	  
 	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
 	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-route.min.js"></script>
 	  <script>
@@ -22,45 +21,15 @@
 						},
 					save : function(game){
 						return $http.post(apiUrl, game)
-						}/*,
-					fleetSizeValues : [
-					{value:1, label:'1 bateau'}, 
-					{value:2, label:'2 bateaux'},
-					{value:3, label:'3 bateaux'},
-					{value:4, label:'4 bateaux'},
-					{value:5, label:'5 bateaux'}
-					];*/
+						}
 					}
 					
 				})	
 		
-			.controller("Ctrl",function($http){
-				console.log("je suis ton petit controller");
+			.controller("Ctrl",function(GameService){
 				var ctrl=this;
-				console.log("remplit le formulaire !");
-						
-			
 				
-				/*$http({
-					method:"GET",
-					url: "http://192.168.229.21:3000/games"
-					}).then(
-						function(result){
-							console.log("success",result)
-							ctrl.games=result.data;
-							
-						},
-						function(error){
-							console.log("error", error)
-						}
-					)*/
-				function fetchGames(){	
-						GameService.getAll()
-							.then(function(game){
-								ctrl.games=games
-							})
-					}
-					fetchGames();
+				
 					
 					ctrl.valuesofselect=[
 					{value:1, label:'1 bateau'}, 
@@ -74,31 +43,30 @@
 						}
 
 				this.addGame=function(form){
-					console.log("welcome stranger, I've some rare things to sell")
 					if (form.$invalid) return
-					//Enregistre le ctrl.game dans ctrl.games
+					//game.user1.pseudo="tabbehim"
 					ctrl.games.push(ctrl.game)
 					console.log(ctrl.game)
 					var clone = angular.copy(ctrl.game)
-					console.log(clone)
-					/*$http({
-					method:"POST",
-					url: "http://192.168.229.21:3000/games",
-					data :clone
-					})*/
+						console.log(clone)
+					
 					GameService.save(clone)
 				}
+				
+				function fetchGames(){	
+					
+						GameService.getAll()
+							.then(function(game){
+								
+								ctrl.games=game
+							})
+					}
 
+					fetchGames();
+				
 			})
-			
-			
-
-			
-
-	  </script>
-	  
+		</script>
 	</head>
-
 
 	<body ng-app="game">
 		<header>
@@ -107,19 +75,12 @@
 		
 		<main ng-controller="Ctrl as ctrl">
 			<form required name="bataille" ng-submit="ctrl.addGame(bataille)" novalidate>
-				<p><label>nom : <input name="name" type="text" ng-model="ctrl.game.name" >
-					<span class="error" ng-show="game.bataille.$invalid && bataille.$dirty"></label></p>
-				<p><label>email : <input name="email" type="email" ng-model="ctrl.game.email"></label></p>
-				<p><label>pseudo : <input name="pseudo" ng-minlength="5" ng-model="ctrl.game.pseudo"></label></p>
+				<p><label>nom : <input name="name" type="text" ng-model="ctrl.game.name" ><span class="error" ng-show="game.bataille.$invalid && bataille.$dirty"></label></p>
+				<p><label>email : <input name="email" type="email" ng-model="ctrl.game.user1.email"></label></p>
+				<p><label>pseudo : <input name="pseudo" ng-minlength="5" ng-model="ctrl.game.user1.pseudo"></label></p> <!--  à effacer -->
 				<p><label>champ de bataille : <input required name="width" type="number" min="5" max="10" ng-model="ctrl.game.battlefieldSize.width" >
 				<input required name="height" type="number" min="5" max="10" ng-model="ctrl.game.battlefieldSize.height" ></label></p>
-				<!-- <p><label>nombre de bateaux : <input name="bateau" type="number"min="1" max="5"></label></p> -->
 				<select required name="fleetSize" ng-model="ctrl.game.fleetSize" ng-options="s.value as s.label for s in ctrl.valuesofselect" >
-				  <!-- <option value="1">un bateau</option>
-				  <option value="2">deux bateaux</option>
-				  <option value="3">trois bateaux</option>
-				  <option value="4">quatre bateaux</option>
-				  <option value="5">cinq bateaux</option> -->
 				</select>
 
 				 <div class="validation">
