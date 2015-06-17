@@ -12,6 +12,21 @@
 				var ctrl=this;
 				ctrl.games=[];
 				console.log("remplit le formulaire !");
+				
+					
+					ctrl.bateau=[
+					{value:1, label:'1 bateau'}, 
+					{value:2, label:'2 bateaux'},
+					{value:3, label:'3 bateaux'},
+					{value:4, label:'4 bateaux'},
+					{value:5, label:'5 bateaux'}]
+					
+					ctrl.game={
+						bateau: ctrl.bateau[1].value
+						}
+					
+					
+					
 				this.addGame=function(form){
 					console.log("welcome stranger, I've some rare things to sell")
 					if (form.$invalid) return
@@ -19,7 +34,6 @@
 					ctrl.games.push(ctrl.game)
 					console.log(ctrl.game)
 					var clone = angular.copy(ctrl.game)
-					
 				}
 			})
 	  
@@ -35,24 +49,25 @@
 		</header>
 		
 		<main ng-controller="Ctrl as ctrl">
-			<form name="bataille" ng-submit="ctrl.addGame(bataille)" novalidate>
-				<p><label>nom : <input name="nom" type="text" ng-model="ctrl.game.nom" required></label></p>
+			<form required name="bataille" ng-submit="ctrl.addGame(bataille)" novalidate>
+				<p><label>nom : <input name="nom" type="text" ng-model="ctrl.game.nom" >
+					<span class="error" ng-show="game.bataille.$invalid && bataille.$dirty"></label></p>
 				<p><label>email : <input name="email" type="email" ng-model="ctrl.game.email"></label></p>
 				<p><label>pseudo : <input name="pseudo" ng-minlength="5" ng-model="ctrl.game.pseudo"></label></p>
-				<p><label>champ de bataille : <input name="latitude" type="number" min="5" max="10" ng-model="ctrl.game.latitude" required><input name="longitude" type="number" min="5" max="10" ng-model="ctrl.game.longitude" required></label></p>
+				<p><label>champ de bataille : <input required name="latitude" type="number" min="5" max="10" ng-model="ctrl.game.latitude" ><input required name="longitude" type="number" min="5" max="10" ng-model="ctrl.game.longitude" ></label></p>
 				<!-- <p><label>nombre de bateaux : <input name="bateau" type="number"min="1" max="5"></label></p> -->
-				<select ng-model="ctrl.game.bateau" ng-option=" " required>
-				  <option value="1">un bateau</option>
+				<select required name="bateau" ng-model="ctrl.game.bateau" ng-options="s.value as s.label for s in ctrl.bateau" >
+				  <!-- <option value="1">un bateau</option>
 				  <option value="2">deux bateaux</option>
 				  <option value="3">trois bateaux</option>
 				  <option value="4">quatre bateaux</option>
-				  <option value="5">cinq bateaux</option>
+				  <option value="5">cinq bateaux</option> -->
 				</select>
 
 				 <div class="validation">
-                    <input type="submit" value="créer la partie">
+                    <input type="submit" value="créer la partie" ng-disabled="bataille.$invalid">
                 </div>
 				<pre>{{ctrl.games | json }}</pre>
-							</form>
+			</form>
 	</body>
 </html>
