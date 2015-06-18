@@ -3,11 +3,11 @@ angular.module("app")
     "use strict"
     var apiUrl = "http://192.168.229.21:3000/games";
     return {
-        pseudo: "thomas",
+        pseudo: "tabbehim",
         getAll: function () {
             return $http.get(apiUrl)
-                .then(function (result) {
-                    return result.data;
+                .then(function (response) {
+                    return response.data;
                 })
                 .then(function (games) {
                     return games.filter(function (game) {
@@ -16,6 +16,12 @@ angular.module("app")
                             || game.user2.pseudo === this.pseudo )
                     }.bind(this))
                 }.bind(this))
+        },
+        get: function (id) {
+            return $http.get(apiUrl + "/" + id)
+                .then(function (response) {
+                    return response.data
+                })
         },
         join: function (game) {
             game.user2 = {
@@ -29,8 +35,11 @@ angular.module("app")
             return $http.post(apiUrl, game)
         },
         fleetSizeValues: [
-            {value:2, label:'2 bateaux'},
-            {value:3, label:'3 bateaux'}
+            {value:1, label:'1 bateau'}, 
+			{value:2, label:'2 bateaux'},
+			{value:3, label:'3 bateaux'},
+			{value:4, label:'4 bateaux'},
+			{value:5, label:'5 bateaux'}
         ]
     }
 })

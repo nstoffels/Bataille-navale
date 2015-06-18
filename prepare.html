@@ -1,0 +1,30 @@
+<pre>
+	{{prepareCtrl.game.battlefieldSize | json }}
+</pre>
+
+<style>
+	table.battlefield{
+		border-collapse : collapse;
+		width : auto;
+		margin : 30px;
+		}
+	td{
+		border : 1px solid black;
+		width : 30px;
+		height : 3px;
+		margin : 0;
+		padding : 0;
+		}
+
+</style>
+
+
+<table class="battlefield">
+				
+		<tr ng-repeat="row in prepareCtrl.rows track by $index">
+			<td ng-repeat="col in prepareCtrl.cols track by $index" 
+			ng-click="prepareCtrl.add($index,$parent.$index)"></td>
+				{{prepareCtrl.battlefield[$index][$parent.$index]}}
+		</tr>
+			
+</table>

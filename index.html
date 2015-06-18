@@ -7,18 +7,48 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-route.min.js"></script>
   
-  <script src="/app.js"></script>
-  <script src="/NewController.js"></script>
-  <script src="/HomeController.js"></script>
-  <script src="/GameService.js"></script>
+    <script src="/app.js"></script>
+    <script src="/HomeController.js"></script>
+    <script src="/NewController.js"></script>
+    <script src="/PrepareController.js"></script>
+    <script src="/GameService.js"></script>
+  <!-- <script src="/directives/dtaPhoto.js"></script> -->
+	  <style>
+			body {
+				font-family: "Arial";
+				font-size: 14px;
+			}
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+			td {
+				border: 1px solid #ddd;
+				padding: 5px;
+			}
+			
+		</style>
 </head>
-<body ng-app="app">
-	
-	<ul>
-		<li><a href="#/">Maison</a></li>
-		<li><a href="#/new.html">nouveaux jeux</a></li>
-	</ul>
-	
-	<div ng-view></div>
-</body>
+	<body ng-app="app">
+		
+	<a href="#/home">Home</a>
+	<a href="#/new">Nouveau jeu</a>
+
+	<div ng-view>ici la vue du routeur</div>
+
+
+	<script type="text/javascript">document.write('<script src="' + (location.protocol || 'http:') + '//' + (location.hostname || 'localhost') + ':35729/livereload.js?snipver=1" type="text/javascript"><\/script>')</script>
+		
+		<!--<dta-photo border-width="borderWidth" e="toto = 'yes'" couleur="red">ça fait quoi?</dta-photo>
+		</br>
+		<dta-photo border-width="borderWidth" e="toto = 'no'" couleur="green"></dta-photo>
+		</br>
+		<dta-photo e="toto = 'maybe'" border-width="borderWidth"></dta-photo>
+		</br>
+		<input ng-model = "border-width" type="number">{{borderWidth }}
+		</br> --> <!-- ? finir plus tard -->
+
+	</body>
 </html>
+
+    

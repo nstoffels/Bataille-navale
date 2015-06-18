@@ -1,7 +1,20 @@
+
 <form ng-submit="newCtrl.save(newForm)" name="newForm" novalidate>
 	
-	<input ng-model="newCtrl.game.name" type="text">
-	
-	<button type="submit">Enregistrer</button>
+
+		<!-- <form required name="bataille" ng-submit="ctrl.addGame(bataille)" novalidate> -->
+				<p><label>nom : <input name="name" type="text" ng-model="ctrl.game.name" ><span class="error" ng-show="game.bataille.$invalid && bataille.$dirty"></label></p>
+				<p><label>email : <input name="email" type="email" ng-model="ctrl.game.user1.email"></label></p>
+				<p><label>pseudo : <input name="pseudo" ng-minlength="5" ng-model="ctrl.game.user1.pseudo"></label></p> <!--  à effacer -->
+				<p><label>champ de bataille : <input required name="width" type="number" min="5" max="10" ng-model="ctrl.game.battlefieldSize.width" >
+				<input required name="height" type="number" min="5" max="10" ng-model="ctrl.game.battlefieldSize.height" ></label></p>
+				<select required name="fleetSize" ng-model="ctrl.game.fleetSizeValues" ng-options="s.value as s.label for s in ctrl.valuesofselect" >
+				</select>
+				<div class="validation">
+                    <input type="submit" value="créer la partie" ng-disabled="bataille.$invalid">
+                </div>
+				
+		<!-- </form> -->
 	
 </form>
+

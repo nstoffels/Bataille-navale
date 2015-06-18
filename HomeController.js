@@ -1,6 +1,6 @@
 angular.module("app")
 
-.controller("HomeController", function (GameService) {
+.controller("HomeController", function (GameService, $location) {
     var homeCtrl = this;
 
     function fetchGames() {
@@ -16,6 +16,10 @@ angular.module("app")
             .then(function () {
                 fetchGames()
             })
+    }
+
+    homeCtrl.prepare = function (game) {
+        $location.path("/prepare/" + game.id)
     }
 
 })

@@ -10,22 +10,30 @@ angular.module("app", ["ngRoute"])
       controllerAs: "homeCtrl"
     })
 
+
     .when("/new", {
       templateUrl: "/new.html",
       controller: "NewController",
       controllerAs: "newCtrl"
     })
 
-    .when("/test/:id", {
-      template: "ici",
-      controller: function ($routeParams) {
-        console.log($routeParams.id)
-      },
-      controllerAs: "newCtrl"
+
+    .when("/prepare/:id", {
+      templateUrl: "/prepare.html",
+      controller: "PrepareController",
+      controllerAs: "prepareCtrl"
     })
+
 
     .otherwise({
       redirectTo: "/"
     });
+
+})
+
+.controller("main", function ($scope) {
+  $scope.bonjour = function () {
+    console.log("Bonjour")
+  }
 
 })

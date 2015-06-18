@@ -10,21 +10,37 @@
 		
 		angular.module("game",["ngRoute"])
 
-			.factory("GameService", function($http){
-				var apiUrl= "http://192.168.229.21:3000/games";
-				return{
-					getAll : function(){	
-						return  $http.get(apiUrl)
-							.then(function(result) {
+				.factory("GameService", function ($http) {
+				"use strict"
+				var apiUrl = "http://192.168.229.21:3000/games";
+				return {
+					pseudo: "tabbehim",
+					getAll: function () {
+						return $http.get(apiUrl)
+							.then(function (result) {
 								return result.data;
 							})
-						},
-					save : function(game){
+							.then(function (games) {
+								return games.filter(function (game) {
+									return !game.user2 ||
+									( game.user1.pseudo === this.pseudo
+										|| game.user2.pseudo === this.pseudo )
+								}.bind(this))
+							}.bind(this))
+					},
+					join: function (game) {
+						game.user2 = {
+							pseudo: this.pseudo
+						};
+						return $http.put(apiUrl + "/" + game.id, game)
+					},
+					save: function (game) {
+						if (!game.user1) game.user1 = {};
+						game.user1.pseudo = this.pseudo;
 						return $http.post(apiUrl, game)
-						}
 					}
-					
-				})	
+				}
+			})
 		
 			.controller("Ctrl",function(GameService){
 				var ctrl=this;
@@ -65,7 +81,87 @@
 					fetchGames();
 				
 			})
+			.controller("HomeController", function (GameService) {
+				var homeCtrl = this;
+
+				function fetchGames() {
+					GameService.getAll()
+						.then(function (games) {
+							homeCtrl.games = games
+						})
+				}
+				fetchGames()
+				
+
+				homeCtrl.join = function (game) {
+					GameService.join(game)
+						.then(function () {
+							fetchGames()
+						})
+				}
+				
+				homeCtrl.prepare=function(game){
+						$location.path("/prepare/"+game.id)
+				}
+
+			})
+
+
+			.controller("NewController", function (GameService, $location) {
+				var newCtrl = this;
+
+				newCtrl.save = function (form) {
+					if (form.$invalid) return;
+					GameService.save(newCtrl.game)
+						.then(function () {
+							$location.path("/")
+						})
+				}
+
+			})
+
+
+			.controler("PrepapreController", function(GameService,$routeParameter){
+				var prepareCtrl=this;
+				
+				GameService.get($routeParameter.id).then(function(game){
+					prepareCtrl.game=game
+					
+					prepareCtrl.rows=new Array(game.battlefieldSize.height)
+					prepareCtrl.cols=new Array(game.battlefieldSize.height)
+					
+					
+					var battlefield=[];
+					for (var i=0; i<game.battlefieldSize.height;i++){
+						battlefield[i]=[]
+						for (var j=0; j<game.battlefieldSize.width;j++){
+							battlefield[j]=[i][j];
+						}
+					}
+				})
+				prepareCtrl.add=function(i,j){
+					prepareCtrl.battlefield[i][j]=1
+				}
+			})
+			
 		</script>
+		
+		<style>
+			table.battlefield{
+				border-collapse : collapse;
+				width : auto;
+				margin : 30px;
+				}
+			td{
+				border : 1px solid black;
+				width : 30px;
+				height : 3px;
+				margin : 0;
+				padding : 0;
+				}
+
+		</style>
+		
 	</head>
 
 	<body ng-app="game">
@@ -86,7 +182,39 @@
 				 <div class="validation">
                     <input type="submit" value="créer la partie" ng-disabled="bataille.$invalid">
                 </div>
-				<pre>{{ctrl.games | json }}</pre>
+				<pre>{{ctrl.games | json }}</pre><button ng-if="game.user2" >se préparer</button>
 			</form>
+			
+			<table class="battlefield">
+				
+			<tr ng-repeat="row in prepareCtrl.rows track by $index">
+				<td ng-repeat="col in prepareCtrl.cols track by $index" 
+				ng-click="prepareCtrl.add($index,$parent.$index)"></td>
+					{{prepareCtrl.battlefield[$index][$parent.$index]}}
+			</tr>
+			
+		</table>
+			
+			
+			<ul>
+				</li><a href='http://192.168.229.21:3000'>API</a></li></br>
+				</li><a href='http://192.168.229.21:4000'>Slide Javascript</a></li></br>
+				</li><a href='http://192.168.229.21:9000'>Slide AngularJS</a></li></br>
+				</li><a href='http://192.168.229.21:8080'>Application</a></li></br>
+			</ul>
+			
+			<!-- test -->
+			<table border="1">
+				<tr ng-repeat="game in homeCtrl.games ">
+
+					<td>{{game.name}}</td>
+					<td>{{game.user1.pseudo}}</td>
+					<td>{{game.user2.pseudo}}</td>
+					<button ng-if="!game.user2" ng-click="homeCtrl.join(game)">join</button>
+					<button ng-if="game.user2" >se préparer</button>
+				</tr>
+			</table>
+			
 	</body>
 </html>
+
