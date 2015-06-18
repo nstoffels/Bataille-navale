@@ -1,0 +1,10 @@
+<table border="1">
+	<tr ng-repeat="game in homeCtrl.games ">
+
+		<td>{{game.name}}</td>
+		<td>{{game.user1.pseudo}}</td>
+		<td>{{game.user2.pseudo}}</td>
+		<td><button ng-if="!game.user2" ng-click="homeCtrl.join(game)">join</button></td>
+		<td><button ng-if="game.user2" >se préparer</button></td>
+	</tr>
+</table>
