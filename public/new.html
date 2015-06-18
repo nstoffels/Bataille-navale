@@ -9,7 +9,12 @@
 				<p><label>pseudo : <input name="pseudo" ng-minlength="5" ng-model="ctrl.game.user1.pseudo"></label></p> <!--  à effacer -->
 				<p><label>champ de baston : <input required name="width" type="number" min="5" max="10" ng-model="ctrl.game.battlefieldSize.width" >
 				<input required name="height" type="number" min="5" max="10" ng-model="ctrl.game.battlefieldSize.height" ></label></p>
-				<select required name="fleetSize" ng-model="ctrl.game.fleetSizeValues" ng-options="s.value as s.label for s in ctrl.GameServise.valuesofselect" >
+				<select required name="fleetSize" ng-model="ctrl.game" ng-options="s.value as s.label for s in ctrl.valuesofselect" >
+					<option value="1">un bateau</option>
+					<option value="2">deux bateaux</option>
+					<option value="3">trois bateaux</option>
+					<option value="4">quatre bateaux</option>
+					<option value="5">cinq bateaux</option>
 				</select>
 				<div class="validation">
                     <input type="submit" value="créer la partie" ng-disabled="newForm.$invalid">
@@ -18,4 +23,6 @@
 
 	
 </form>
+
+	
 
